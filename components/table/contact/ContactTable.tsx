@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import {
-  ColumnDef,
   ColumnFiltersState,
   SortingState,
   flexRender,
@@ -17,15 +16,18 @@ import {
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { IContactList, contactColumns } from "./contactColumns";
 
-interface IContactTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+interface IContactTableProps {
+  onDelete: (contactId: number) => Promise<void>;
+  data: IContactList[];
 }
 
-export default function ContactTable<TData, TValue>({ columns, data }: IContactTableProps<TData, TValue>) {
+export default function ContactTable({ data, onDelete }: IContactTableProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+
+  const columns = contactColumns({ onDelete });
 
   const table = useReactTable({
     data,

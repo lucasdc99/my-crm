@@ -12,8 +12,8 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 const contactSchema = z.object({
-  firstName: z.string().min(2).max(50).trim(),
-  lastName: z.string().min(2).max(50).trim(),
+  firstName: z.string().trim().min(2).max(50),
+  lastName: z.string().trim().min(2).max(50),
   email: z.string().email(),
   gender: z.nativeEnum(GenderEnum),
   moneyToInvest: z.coerce.number().min(0).optional(),
@@ -38,8 +38,14 @@ export default function ContactForm(props: IContactFormProps) {
   });
 
   const onSubmit = async (values: TContactData) => {
-    await props.onSubmit(values);
-    toast("Contact saved!");
+    try {
+      await props.onSubmit(values);
+      toast.success("Contact saved!");
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    }
   };
 
   return (

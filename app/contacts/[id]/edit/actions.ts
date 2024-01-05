@@ -1,6 +1,6 @@
 "use server";
 
-import { TContactData } from "@/components/ContactForm";
+import { TContactData } from "@/components/form/ContactForm";
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";

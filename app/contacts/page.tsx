@@ -1,26 +1,9 @@
 import ContactTable from "@/components/table/contact/ContactTable";
-import { IContactList, contactColumns } from "@/components/table/contact/contactColumns";
 import prisma from "@/lib/prisma";
-
-async function getData(): Promise<IContactList[]> {
-  const contacts = await prisma.contact.findMany({});
-
-  return contacts.map((contact) => ({
-    id: contact.id,
-    email: contact.email,
-    firstName: contact.firstName,
-    lastName: contact.lastName,
-    gender: contact.gender,
-    moneyToInvest: contact.moneyToInvest,
-  }));
-}
+import { deleteContact } from "./actions";
 
 export default async function Page() {
-  const data = await getData();
+  const data = await prisma.contact.findMany({});
 
-  return (
-    <div className="container mx-auto py-10">
-      <ContactTable columns={contactColumns} data={data} />
-    </div>
-  );
+  return <ContactTable onDelete={deleteContact} data={data} />;
 }

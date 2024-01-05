@@ -1,4 +1,4 @@
-import ContactForm from "@/components/ContactForm";
+import ContactForm from "@/components/form/ContactForm";
 import prisma from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import { z } from "zod";
